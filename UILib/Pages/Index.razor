@@ -1,0 +1,20 @@
+﻿@page "/"
+
+<ToDoList Items="_items" 
+          OnAddItemRequested="AddItemToList"
+          OnDeleteItemRequested="RemoveItemFromList" />
+
+@code
+{
+    private readonly List<string> _items = new();
+
+    public void RemoveItemFromList(string item)
+    {
+        _items.Remove(item);
+    }
+
+    private void AddItemToList(string item)
+    {
+        _items.Add(item);
+    }
+}

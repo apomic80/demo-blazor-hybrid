@@ -1,0 +1,32 @@
+@inject IDataService DataService
+
+<button type="button" @onclick="RequestItemData">Add</button>
+<h3>Your ToDo</h3>
+@if (Items?.Count > 0)
+{
+    <ul>
+        @foreach (var item in Items)
+        {
+            <ToDoListItem Item="@item" OnItemClicked="OnDeleteItemRequested" />
+        }
+    </ul>
+}
+else
+{
+    <span>No Items</span>
+}
+
+@code 
+{
+    [Parameter] public List<string>? Items { get; set; }
+    [Parameter] public EventCallback<string> OnAddItemRequested { get; set; }
+    [Parameter] public EventCallback<string> OnDeleteItemRequested { get; set; }
+
+    private async Task RequestItemData()
+    {
+        var item = await DataService.RequestData();
+        item = item.Trim();
+        if(!string.IsNullOrEmpty(item))
+            await OnAddItemRequested.InvokeAsync(item);
+    }
+}

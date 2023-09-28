@@ -1,0 +1,9 @@
+<li @onclick="() => OnItemClicked.InvokeAsync(Item)">
+    @Item
+</li>
+
+@code 
+{
+    [Parameter] public string? Item { get; set; }
+    [Parameter] public EventCallback<string> OnItemClicked { get; set; }
+}
