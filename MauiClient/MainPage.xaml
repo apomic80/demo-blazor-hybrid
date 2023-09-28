@@ -2,13 +2,13 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:MauiClient"
-             xmlns:uilib="clr-namespace:UILib;assembly=UILib"
+             xmlns:uilib="clr-namespace:UILib.Components;assembly=UILib"
              x:Class="MauiClient.MainPage"
              BackgroundColor="{DynamicResource PageBackgroundColor}">
 
     <BlazorWebView x:Name="blazorWebView" HostPage="wwwroot/index.html">
         <BlazorWebView.RootComponents>
-            <RootComponent Selector="#app" ComponentType="{x:Type uilib:Main}" />
+            <RootComponent x:Name="rootComponent" Selector="#app" ComponentType="{x:Type uilib:ToDoList}" />
         </BlazorWebView.RootComponents>
     </BlazorWebView>
 
