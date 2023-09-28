@@ -1,11 +1,15 @@
 ﻿@page "/"
 
-<ToDoList Items="_items" 
-          OnAddItemRequested="AddItemToList"
-          OnDeleteItemRequested="RemoveItemFromList" />
+<span>Render: @_renderCount</span>
+<div>
+    <ToDoList Items="_items" 
+              OnAddItemRequested="AddItemToList"
+              OnDeleteItemRequested="RemoveItemFromList" />
+</div>
 
 @code
 {
+    private int _renderCount;
     private readonly List<string> _items = new();
 
     public void RemoveItemFromList(string item)
@@ -16,5 +20,10 @@
     private void AddItemToList(string item)
     {
         _items.Add(item);
+    }
+    
+    protected override void OnAfterRender(bool firstRender)
+    {
+        _renderCount++;
     }
 }

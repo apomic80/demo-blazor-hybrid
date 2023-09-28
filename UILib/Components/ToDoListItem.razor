@@ -1,9 +1,16 @@
 <li @onclick="() => OnItemClicked.InvokeAsync(Item)">
-    @Item
+    @Item (@_renderCount)
 </li>
 
 @code 
 {
+    private int _renderCount;
+    
     [Parameter] public string? Item { get; set; }
     [Parameter] public EventCallback<string> OnItemClicked { get; set; }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        _renderCount++;
+    }
 }

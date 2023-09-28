@@ -1,7 +1,7 @@
 @inject IDataService DataService
 
 <button type="button" @onclick="RequestItemData">Add</button>
-<h3>Your ToDo</h3>
+<h3>Your ToDo (@_renderCount)</h3>
 @if (Items?.Count > 0)
 {
     <ul>
@@ -18,6 +18,8 @@ else
 
 @code 
 {
+    private int _renderCount;
+    
     [Parameter] public List<string>? Items { get; set; }
     [Parameter] public EventCallback<string> OnAddItemRequested { get; set; }
     [Parameter] public EventCallback<string> OnDeleteItemRequested { get; set; }
@@ -28,5 +30,10 @@ else
         item = item.Trim();
         if(!string.IsNullOrEmpty(item))
             await OnAddItemRequested.InvokeAsync(item);
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        _renderCount++;
     }
 }
