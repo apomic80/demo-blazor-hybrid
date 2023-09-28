@@ -1,4 +1,5 @@
 @inject IDataService DataService
+@inject PropertyChangeNotifier PropertyChangeNotifier
 
 <button type="button" @onclick="RequestItemData">Add</button>
 <h3>Your ToDo</h3>
@@ -29,4 +30,15 @@ else
         if(!string.IsNullOrEmpty(item))
             await OnAddItemRequested.InvokeAsync(item);
     }
+
+    protected override void OnInitialized()
+    {
+        PropertyChangeNotifier.PropertyChanged +=
+            (s, name) =>
+            {
+                if (name == nameof(Items)) StateHasChanged();
+            };
+    }
+
+    
 }
