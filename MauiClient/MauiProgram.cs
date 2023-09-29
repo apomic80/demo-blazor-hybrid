@@ -18,7 +18,14 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<MainPage>();
         builder.Services.AddSingleton<IDataService, DataService>();
-        builder.Services.AddSingleton<PropertyChangeNotifier>();
+        
+        builder.Services.AddFluxor(
+            options =>
+            {
+                options
+                    .WithLifetime(StoreLifetime.Singleton)
+                    .ScanAssemblies(typeof(MainLayout).Assembly);
+            });
 
         return builder.Build();
     }

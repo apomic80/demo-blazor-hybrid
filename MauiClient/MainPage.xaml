@@ -8,7 +8,7 @@
 
     <BlazorWebView x:Name="blazorWebView" HostPage="wwwroot/index.html">
         <BlazorWebView.RootComponents>
-            <RootComponent x:Name="rootComponent" Selector="#app" ComponentType="{x:Type uilib:ToDoList}" />
+            <RootComponent Selector="#app" ComponentType="{x:Type uilib:ToDoList}" />
         </BlazorWebView.RootComponents>
     </BlazorWebView>
 

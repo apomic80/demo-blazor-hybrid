@@ -4,5 +4,7 @@ global using UILib;
 global using UILib.Services;
 global using Microsoft.JSInterop;
 global using WasmClient.Services;
+global using Fluxor;
+global using UILib.Layouts;
 
  

@@ -1,14 +1,18 @@
+@inherits FluxorComponent
+@using UILib.Store
 @inject IDataService DataService
-@inject PropertyChangeNotifier PropertyChangeNotifier
+@inject IState<ToDoStore.State> ToDoState
+@inject IDispatcher Dispatcher
 
 <button type="button" @onclick="RequestItemData">Add</button>
 <h3>Your ToDo</h3>
-@if (Items?.Count > 0)
+@if (ToDoState.Value.Items?.Count > 0)
 {
     <ul>
-        @foreach (var item in Items)
+        @foreach (var item in ToDoState.Value.Items)
         {
-            <ToDoListItem Item="@item" OnItemClicked="OnDeleteItemRequested" />
+            <ToDoListItem Item="@item" 
+                          OnItemClicked="value => Dispatcher.Dispatch(new ToDoStore.RemoveItemFromListAction(value))" />
         }
     </ul>
 }
@@ -19,26 +23,9 @@ else
 
 @code 
 {
-    [Parameter] public List<string>? Items { get; set; }
-    [Parameter] public EventCallback<string> OnAddItemRequested { get; set; }
-    [Parameter] public EventCallback<string> OnDeleteItemRequested { get; set; }
-
     private async Task RequestItemData()
     {
         var item = await DataService.RequestData();
-        item = item.Trim();
-        if(!string.IsNullOrEmpty(item))
-            await OnAddItemRequested.InvokeAsync(item);
+        Dispatcher.Dispatch(new ToDoStore.AddItemToListAction(item));
     }
-
-    protected override void OnInitialized()
-    {
-        PropertyChangeNotifier.PropertyChanged +=
-            (s, name) =>
-            {
-                if (name == nameof(Items)) StateHasChanged();
-            };
-    }
-
-    
 }
