@@ -1,0 +1,31 @@
+@inherits FluxorComponent
+@using UILib.Store
+@inject IDataService DataService
+@inject IState<ToDoStore.State> ToDoState
+@inject IDispatcher Dispatcher
+
+<button type="button" @onclick="RequestItemData">Add</button>
+<h3>Your ToDo</h3>
+@if (ToDoState.Value.Items?.Count > 0)
+{
+    <ul>
+        @foreach (var item in ToDoState.Value.Items)
+        {
+            <ToDoListItem Item="@item" 
+                          OnItemClicked="value => Dispatcher.Dispatch(new ToDoStore.RemoveItemFromListAction(value))" />
+        }
+    </ul>
+}
+else
+{
+    <span>No Items</span>
+}
+
+@code 
+{
+    private async Task RequestItemData()
+    {
+        var item = await DataService.RequestData();
+        Dispatcher.Dispatch(new ToDoStore.AddItemToListAction(item));
+    }
+}
